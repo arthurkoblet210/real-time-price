@@ -1,8 +1,9 @@
 "use client"
 import { useEffect, useState } from 'react';
-
+let historyprice = "";
 const StockPrice = ({ symbol = "", apiKey = "" }) => {
   const [price, setPrice] = useState(null);
+
 
   useEffect(() => {
     // Check if running in the browser
@@ -28,6 +29,7 @@ const StockPrice = ({ symbol = "", apiKey = "" }) => {
       // Check if the message contains price data for the requested symbol
       if (response.event === 'price') {
         setPrice(response.price);
+        historyprice = historyprice + '--> $' + response.price;
       }
     };
 
@@ -49,7 +51,7 @@ const StockPrice = ({ symbol = "", apiKey = "" }) => {
   return (
     <div>
       <h1>Real-Time Stock Price</h1>
-      <p>{symbol}: {price ? `$${price}` : 'Loading...'}</p>
+      <p>{symbol}: {price ? `${historyprice}` : 'Loading...'}</p>
     </div>
   );
 };
@@ -57,7 +59,7 @@ const StockPrice = ({ symbol = "", apiKey = "" }) => {
 const Home = () => {
   const API_KEY = '46f4bea5f0684accb3397d3fcba0b3b1'; // Replace with your Twelve Data API key
 
-  return <StockPrice symbol="AAPL, RY" apiKey={API_KEY} />;
+  return <StockPrice symbol="AAPL" apiKey={API_KEY} />;
 };
 
 export default Home;
